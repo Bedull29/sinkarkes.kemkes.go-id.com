@@ -1,382 +1,153 @@
+<!DOCTYPE html>
 <html lang="id">
-	<head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SINKARKES - Cek Dokumen</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f7f7f7;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    .logo img {
+      height: 40px;
+      margin-right: 10px;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: #008080;
+      font-weight: bold;
+    }
+    .search-bar {
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      padding: 5px 10px;
+    }
+    .container {
+      max-width: 600px;
+      background: #fff;
+      margin: 40px auto;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+    }
+    .container h2 {
+      color: #008080;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .btn {
+      background: #008080;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 5px;
+      background: #e6f9f9;
+      color: #006666;
+      display: none;
+    }
+    .preview-image {
+      text-align: center;
+      margin-top: 30px;
+    }
+    .preview-image img {
+      max-width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="D:\codingan dull\sinkarkes clone\SINKARKES.png" alt="logo">
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#">PELAYANAN</a></li>
+        <li><a href="#">IHR</a></li>
+        <li><a href="#">BERITA</a></li>
+        <li><a href="#">PERATURAN</a></li>
+        <li><a href="#">PROFIL BALAI KARKES</a></li>
+        <li><a href="#">VISI MISI</a></li>
+        <li><a href="#">FASKES</a></li>
+        <li><a href="#">LOGIN</a></li>
+      </ul>
+    </nav>
+    <input class="search-bar" type="text" placeholder="Search...">
+  </header>
 
-		<!-- Basic -->
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">	
+  <div class="container">
+    <h2>Cek Nomor Dokumen</h2>
+    <p>Silakan masukkan nomor dokumen atau sertifikat untuk memastikan keasliannya.</p>
+    <div class="form-group">
+      <label for="docNumber">Nomor Dokumen:</label>
+      <input type="text" id="docNumber" placeholder="Masukkan nomor dokumen...">
+    </div>
+    <button class="btn" onclick="cekDokumen()">Cek Dokumen</button>
+    <div class="result" id="resultBox"></div>
 
-		<title>Sistem Informasi Kesehatan Pelabuhan</title>	
+    <div class="preview-image">
+      <h3>Contoh Sertifikat:</h3>
+      <img src="D:\codingan dull\sinkarkes clone\qadir-sertifikat-preview.jpg" alt="Contoh Sertifikat">
+    </div>
+  </div>
 
-		<meta name="description" content="SINKARKES">
-		<meta name="author" content="Ardi Soebrata">
-		<meta name="keywords" content="Kesehatan Pelabuhan, Kementerian Kesehatan, Republik Indonesia">
+  <script>
+    function cekDokumen() {
+      const nomor = document.getElementById('docNumber').value;
+      const resultBox = document.getElementById('resultBox');
+      
+      if (nomor.trim() === '') {
+        resultBox.style.display = 'block';
+        resultBox.innerText = 'Nomor dokumen tidak boleh kosong.';
+        resultBox.style.background = '#ffe6e6';
+        resultBox.style.color = '#cc0000';
+        return;
+      }
 
-		<!-- Favicon -->
-		<link rel="apple-touch-icon" sizes="180x180" href="https://sinkarkes.kemkes.go.id/assets/img/favicons/apple-touch-icon.png?v=BGGrN6p0zJ">
-		<link rel="icon" type="image/png" href="https://sinkarkes.kemkes.go.id/assets/img/favicons/favicon-32x32.png?v=BGGrN6p0zJ" sizes="32x32">
-		<link rel="icon" type="image/png" href="https://sinkarkes.kemkes.go.id/assets/img/favicons/favicon-16x16.png?v=BGGrN6p0zJ" sizes="16x16">
-		<link rel="manifest" href="https://sinkarkes.kemkes.go.id/assets/img/favicons/manifest.json?v=BGGrN6p0zJ">
-		<link rel="mask-icon" href="https://sinkarkes.kemkes.go.id/assets/img/favicons/safari-pinned-tab.svg?v=BGGrN6p0zJ" color="#40ada6">
-		<link rel="shortcut icon" href="https://sinkarkes.kemkes.go.id/assets/img/favicons/favicon.ico?v=BGGrN6p0zJ">
-		<meta name="apple-mobile-web-app-title" content="Simkespel">
-		<meta name="application-name" content="Simkespel">
-		<meta name="msapplication-config" content="https://sinkarkes.kemkes.go.id/assets/img/favicons/browserconfig.xml?v=BGGrN6p0zJ">
-		<meta name="theme-color" content="#40ada6">
-
-		<!-- Mobile Metas -->
-		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-		<!-- Web Fonts  -->
-		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800%7CShadows+Into+Light" rel="stylesheet" type="text/css">
-
-		<!-- Vendor CSS -->
-		<link rel="stylesheet" href="https://sinkarkes.kemkes.go.id/assets/vendor/bootstrap/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://sinkarkes.kemkes.go.id/assets/vendor/font-awesome/css/font-awesome.min.css">
-		<link rel="stylesheet" href="https://sinkarkes.kemkes.go.id/assets/vendor/simple-line-icons/css/simple-line-icons.min.css">
-		<link rel="stylesheet" href="https://sinkarkes.kemkes.go.id/assets/vendor/owl.carousel/assets/owl.carousel.min.css">
-		<link rel="stylesheet" href="https://sinkarkes.kemkes.go.id/assets/vendor/owl.carousel/assets/owl.theme.default.min.css">
-		<link rel="stylesheet" href="https://sinkarkes.kemkes.go.id/assets/vendor/magnific-popup/magnific-popup.min.css">
-
-		<!-- Theme CSS -->
-		<link rel="stylesheet" href="https://sinkarkes.kemkes.go.id/assets/css/portal/theme.css">
-		<link rel="stylesheet" href="https://sinkarkes.kemkes.go.id/assets/css/portal/theme-elements.css">
-		<link rel="stylesheet" href="https://sinkarkes.kemkes.go.id/assets/css/portal/theme-blog.css">
-		<link rel="stylesheet" href="https://sinkarkes.kemkes.go.id/assets/css/portal/theme-shop.css">
-		<link rel="stylesheet" href="https://sinkarkes.kemkes.go.id/assets/css/portal/theme-animate.css">
-
-		<!-- Current Page CSS -->
-		<link rel="stylesheet" href="https://sinkarkes.kemkes.go.id/assets/vendor/rs-plugin/css/settings.css">
-		<link rel="stylesheet" href="https://sinkarkes.kemkes.go.id/assets/vendor/rs-plugin/css/layers.css">
-		<link rel="stylesheet" href="https://sinkarkes.kemkes.go.id/assets/vendor/rs-plugin/css/navigation.css">
-		
-		
-		<link href="https://sinkarkes.kemkes.go.id/assets/css/simple-lists.css" rel="stylesheet" media="screen" />
-		<link href="https://sinkarkes.kemkes.go.id/assets/css/../vendor/select2/select2.css" rel="stylesheet" media="screen" />
-
-		<!-- Skin CSS -->
-		<link rel="stylesheet" href="https://sinkarkes.kemkes.go.id/assets/css/portal/skin.css">
-
-		<!-- Theme Custom CSS -->
-		<link rel="stylesheet" href="https://sinkarkes.kemkes.go.id/assets/css/portal/custom.css">
-
-		<!-- Head Libs -->
-		<script src="https://sinkarkes.kemkes.go.id/assets/vendor/modernizr/modernizr.min.js"></script>
-		<script src="https://sinkarkes.kemkes.go.id/assets/vendor/jquery/jquery.min.js"></script>
-		
-		<script>
-			var refreshCaptchaURL = "https://sinkarkes.kemkes.go.id/vaksinasi_int/vaksinasi_int_public/refresh_captcha";
-		</script>
-		
-		
-
-	</head>
-	<body>
-		
-		<div class="body" >
-			<header id="header" data-plugin-options='{"stickyEnabled": true, "stickyEnableOnBoxed": true, "stickyEnableOnMobile": true, "stickyStartAt": 57, "stickySetTop": "-57px", "stickyChangeLogo": true}'>
-				<div class="header-body">
-					<div class="header-container container ">
-					
-						<div class="header-row">
-						
-							<div class="header-column">
-                                                            <div class="header-logo">
-                                                                <a href="https://sinkarkes.kemkes.go.id/portal/welcome">
-                                                                    <img src="https://sinkarkes.kemkes.go.id/assets/img/SINKARKES.png" alt="KEMENKES - SIMKESPEL" height="90" data-sticky-height="55" data-sticky-top="45">
-                                                                </a>
-                                                            </div>
-							</div>
-							<div class="header-column">
-								<div class="header-row">
-									<div class="header-search hidden-xs">
-										<form id="searchForm" action="https://sinkarkes.kemkes.go.id/portal" method="get">
-											<div class="input-group">
-												<input type="text" class="form-control" name="q" id="q" placeholder="Search..." required>
-												<span class="input-group-btn">
-													<button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
-												</span>
-											</div>
-										</form>
-									</div>
-<!--									<nav class="header-nav-top">
-										<ul class="nav nav-pills">
-											<li class="hidden-xs">
-												<a href="https://sinkarkes.kemkes.go.id/portal/profil/visi_misi"><i class="fa fa-angle-right"></i> Tentang Kami</a>
-											</li>
-											<li class="hidden-xs">
-												<a href="https://sinkarkes.kemkes.go.id/contact/contact_us"><i class="fa fa-angle-right"></i> Kontak Kami</a>
-											</li>
-											<li>
-												<span class="ws-nowrap"><i class="fa fa-phone"></i> (021) 4266-920</span>
-											</li>
-										</ul>
-									</nav>-->
-								</div>
-								<div class="header-row">
-									<div class="header-nav">
-										<button class="btn header-btn-collapse-nav" data-toggle="collapse" data-target=".header-nav-main">
-											<i class="fa fa-bars"></i>
-										</button>
-										<ul class="header-social-icons social-icons hidden-xs">
-											
-										</ul>
-										<div class="header-nav-main header-nav-main-effect-1 header-nav-main-sub-effect-1 collapse">
-											<nav>
-												<ul class="nav nav-pills" id="mainNav">
-													<li class="dropdown"><a href="https://sinkarkes.kemkes.go.id/vaksinasi_int/vaksinasi_int_public/add" class="dropdown-toggle">Pelayanan</a><ul class="dropdown-menu"><li class=""><a href="https://sinkarkes.kemkes.go.id/vaksinasi_int/vaksinasi_int_public/add">Registrasi Vaksinasi Internasional</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/portal/welcome/pelayanan_kapal">Layanan Kapal</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/portal/welcome/pelayanan_plbdn">Deklarasi Pos Lintas Batas Negara</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/portal/layanan_penumpang/index">Layanan Izin Sakit dan Laik Terbang</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/welcome/check_document">Cek Nomor Dokumen</a></li></ul></li><li class="dropdown"><a href="https://sinkarkes.kemkes.go.id/#" class="dropdown-toggle">IHR</a><ul class="dropdown-menu"><li class=""><a href="https://sinkarkes.kemkes.go.id/ihr/news_public">Berita</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/ihr/ihr_public">Referensi</a></li></ul></li><li class="dropdown"><a href="https://sinkarkes.kemkes.go.id/news/news_public/index" class="dropdown-toggle">Berita</a><ul class="dropdown-menu"><li class=""><a href="https://sinkarkes.kemkes.go.id/news/news_public/index">Berita Nasional</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/news/news_public/index/beritadunia">Berita Dunia</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/news/news_public/index/berita">Berita Seputar Balai Karkes</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/pengumuman/pengumuman_public/index">Pengumuman</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/events/events_public/index">Kegiatan</a></li></ul></li><li class="dropdown"><a href="https://sinkarkes.kemkes.go.id/reference/reference_public/index" class="dropdown-toggle">Peraturan</a><ul class="dropdown-menu"><li class=""><a href="https://sinkarkes.kemkes.go.id/welcome/reference_public/kategori/regulasipresiden">Regulasi Presiden</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/welcome/reference_public/kategori/pp">Peraturan Pemerintah</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/welcome/reference_public/kategori/regulasimenkes">Regulasi Menteri Kesehatan</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/welcome/reference_public/kategori/regulasilainnya">Regulasi Menteri Lainnya</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/welcome/reference_public/kategori/regulasip2pl">Regulasi Dirjen P2P</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/welcome/reference_public/kategori/regulasikemkes">Regulasi Dirjen Kemkes Lainnya</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/welcome/reference_public/kategori/regulasidirjen">Regulasi Dirjen Lainnya</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/welcome/reference_public/kategori/uu">UU & Peraturan Lainnya</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/welcome/reference_public/kategori/referensi">Referensi &amp; Peraturan</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/ihr/ihr_public/index">International Health Regulations</a></li></ul></li><li class=""><a href="https://sinkarkes.kemkes.go.id/kkp/kkp_public">Profil Balai Karkes</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/portal/profil/visi_misi">Visi Misi</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/portal/rumah_sakit">Faskes</a></li><li class=""><a href="https://sinkarkes.kemkes.go.id/auth/login"><i class="fa fa-user"></i> Login</a></li>												</ul>
-											</nav>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</header>
-
-			<div role="main" class="main">
-				<section class="page-header page-header-custom-background mb-none" data-stellar-background-ratio="0" style="background-image: url(https://sinkarkes.kemkes.go.id/assets/img/slide-cek-dokumen.jpg);">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<h1><i class="fa fa-check-square-o"></i> International Certificate Vaccination Or Prophylaxis</h1>
-			</div>
-		</div>
-	</div>
-</section>
-<section class="section section-default mt-none">
-	<div class="container">
-		<div class="heading heading-border heading-bottom-border heading-primary">
-			<h3 class="heading-primary">E00-0101541</h3>
-		</div>
-				<div class="form form-horizontal">
-			<div class="form-group">
-				<label class="col-md-4 control-label">Balai Kekarantinaan Kesehatan/Rumah Sakit</label>
-				<div class="col-md-8">
-					<p class="form-control-static">Klinik Utama CT-Klinik</p>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-md-4 control-label">No. Dokumen</label>
-				<div class="col-md-8">
-					<p class="form-control-static">E00-0101541</p>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-md-4 control-label">Barcode Number</label>
-				<div class="col-md-8">
-					<p class="form-control-static">E00-0101541</p>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-md-4 control-label">This is to certify that [Name]</label>
-				<div class="col-md-8">
-					<p class="form-control-static">MELDA I KUMANGKI</p>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-md-4 control-label">Date Of Birth</label>
-				<div class="col-md-8">
-					<p class="form-control-static">06th Juli 1982</p>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-md-4 control-label">Sex</label>
-				<div class="col-md-8">
-					<p class="form-control-static">Female</p>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-md-4 control-label">Nationality</label>
-				<div class="col-md-8">
-					<p class="form-control-static">INDONESIA</p>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-md-4 control-label">National Identification Documents, If Applicable</label>
-				<div class="col-md-8">
-					<p class="form-control-static">E4016738</p>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-md-4 control-label">Whose Signature Follows</label>
-				<div class="col-md-8">
-					<p class="form-control-static">MELDA I KUMANGKI</p>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-md-4 control-label">Has on the date indicated been vaccinated or received prophylaxis againts: (name of disease or condition)</label>
-				<div class="col-md-8">
-					<p class="form-control-static">MENINGITIS MENINGOCOCCUS</p>
-				</div>
-			</div>
-			<div class="form-group" style="overflow-x: scroll">
-				<table class="table table-bordered table-striped">
-					<thead>
-						<tr>
-							<th style="width: 100px;">Vaccine or Prophy</th>
-							<th style="width: 100px;">Date</th>
-							<th style="width: 200px;">Signature and profesional status of supervising clinican</th>
-							<th style="width: 100px;">Manufacture and batch no. of vaccine or prophylaxis</th>
-							<th style="width: 100px;">Certificate valid until</th>
-							<th style="width: 100px;">Official stamp of the administering centre</th>
-							<th style="width: 100px;">Disease targeted</th>
-							<th style="width: 100px;">Date</th>
-							<th style="width: 100px;">Manufacture, brand name and batch no. of vaccine</th>
-							<th style="width: 100px;">Next Booster (date)</th>
-							<th style="width: 100px;">Official stamp and signature</th>
-						</tr>
-					</thead>
-					<tbody>
-												<tr>
-							<td>MENINGITIS MENINGOCOCCUS</td>
-							<td>30th May 2025</td>
-							<td>MASAYU PRAKASITA, MD</td>
-							<td>MERSI E3202403001</td>
-							<td>13th June 2028</td>
-							<td>Klinik Utama CT-Klinik</td>
-							<td>-</td>
-							<td>-</td>
-							<td>-</td>
-							<td>-</td>
-							<td>-</td>
-						</tr>
-											</tbody>
-				</table>
-			</div>
-		</div>
-		    </div>
-</section>			</div>
-			<footer id="footer" class="">
-				
-				<div class="container">
-				
-	<div class="row">
-						
-						<div class="col-md-3">
-							<div class="contact-details">
-						<!--	<div id="service-boxes" class="container"  style="background-image: url(assets/img/watermark.png);"> -->
-								<h4><i class="fa fa-life-ring"></i>&nbsp;&nbsp;Help Desk</h4>
-								<p>Direktorat Surveilans dan Karantina Kesehatan <br/>Direktorat Jenderal Pencegahan dan Pengendalian Penyakit<br/>Kementerian Kesehatan RI</p>
-								<ul class="contact">
-									<li><p><i class="fa fa-building"></i> Kantor Ditjen P2P<br />Kementerian Kesehatan Republik Indonesia Gedung dr. M. Adhyatma lantai 6</p></li>
-									<li><p><i class="fa fa-map-marker"></i> Jl. HR Rasuna Said Kav. X-5 No. 4-9<br />Jakarta Selatan</p></li>
-                                    <!--
-									<li><p><i class="fa fa-phone"></i> </p></li>
-									<li><p><i class="fa fa-fax"></i> </p></li>
-                                    !-->
-									<li><p><i class="fa fa-envelope"></i><a href="/cdn-cgi/l/email-protection#cdbea4a3a6acbfa6a8bee3a6a8a0a6a8bee3aaa2e3a4a9" target="_top">sinkarkes.kemkes.go.id</a></p></li>
-								</ul>
-							<!--</div>-->
-						</div>
-						</div>
-						<div class="col-md-3">
-							<div>
-								<h4><i class="fa fa-user-md"></i>&nbsp;&nbsp;Pelayanan</h4>
-								<ul>
-									<li><a href="https://sinkarkes.kemkes.go.id/vaksinasi_int/vaksinasi_int_public/add">Registrasi Vaksinasi Internasional</a></li>
-									<li><a href="https://sinkarkes.kemkes.go.id/contact/contact_us">Kontak Kami</a></li>
-								</ul>
-								<h4><i class="fa fa-lock"></i>&nbsp;&nbsp;SINKARKES</h4>
-								<ul>
-									<li><a href="https://sinkarkes.kemkes.go.id/auth/login">Login</a></li>
-									<li><a href="https://www.kespel.depkes.go.id/mail/">Email</a></li>
-								</ul>
-							</div>
-						</div>
-						<div class="col-md-3">
-							<h4><i class="fa fa-building-o"></i>&nbsp;&nbsp;Balai Karkes</h4>
-							<ul>
-								<li><a href="https://sinkarkes.kemkes.go.id/news/news_public">Profil Balai Kekarantinaan Kesehatan</a></li>
-								<li><a href="https://sinkarkes.kemkes.go.id/news/news_public/index">Berita</a></li>
-								<li><a href="https://sinkarkes.kemkes.go.id/pengumuman/pengumuman_public/index">Pengumuman</a></li>
-								<li><a href="https://sinkarkes.kemkes.go.id/events/events_public/index">Kegiatan</a></li>
-								<li><a href="https://sinkarkes.kemkes.go.id/reference/reference_public/index">Referensi &amp; Peraturan</a></li>
-								<li><a href="https://sinkarkes.kemkes.go.id/ihr/ihr_public/index">International Health Regulations</a></li>
-							</ul>
-						</div>
-						<div class="col-md-3">
-							<h4><i class="fa fa-link"></i>&nbsp;&nbsp;LINKS</h4>
-							<ul>
-								<li><a href="https://www.depkes.go.id">Kementerian Kesehatan</a></li>
-								<li><a href="https://www.puskeshaji.depkes.go.id">Pusat Kesehatan Haji</a></li>
-								<li><a href="https://www.gizikia.depkes.go.id">Direktorat Bina Gizi dan KIA</a></li>
-								<li><a href="https://www.pppl.depkes.go.id">Ditjen PP &  PL</a></li>
-								<li><a href="https://www.jkn.kemkes.go.id">Jaminan Kesehatan Nasional</a></li>
-								<li><a href="https://www.who.int/eng">WHO</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<div class="footer-copyright">
-					<div class="container">
-						<div class="row">
-							<div class="col-md-1">
-								<a href="https://sinkarkes.kemkes.go.id/portal" class="logo">
-									<img src="https://sinkarkes.kemkes.go.id/assets/img/kkp_logo.gif" alt="KEMENKES - SIMKESPEL" width="68" class="img-responsive">
-								</a>
-							</div>
-							<div class="col-md-7">
-								<p>Copyright &copy;2025 Direktorat Surveilans dan Karantina Kesehatan &mdash; Direktorat Jenderal Pencegahan dan Pengendalian Penyakit &mdash; Kementerian Kesehatan RI</p>
-							</div>
-							<div class="col-md-4">
-								<nav id="sub-menu">
-									<ul>
-									<!--	<li><a href="https://sinkarkes.kemkes.go.id/portal/welcome/faq">FAQ's</a></li>
-										<li><a href="https://sinkarkes.kemkes.go.id/portal/welcome/sitemap">Sitemap</a></li> -->
-										<li><a href="https://sinkarkes.kemkes.go.id/contact/contact_us">Kontak Kami</a></li>
-									</ul>
-								</nav>
-							</div>
-						</div>
-					</div>
-				</div>
-			</footer>
-		</div>
-		
-		<!-- Vendor -->
-		<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://sinkarkes.kemkes.go.id/assets/vendor/jquery.appear/jquery.appear.min.js"></script>
-		<script src="https://sinkarkes.kemkes.go.id/assets/vendor/jquery.easing/jquery.easing.min.js"></script>
-		<script src="https://sinkarkes.kemkes.go.id/assets/vendor/jquery-cookie/jquery-cookie.min.js"></script>
-		<script src="https://sinkarkes.kemkes.go.id/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-		<script src="https://sinkarkes.kemkes.go.id/assets/vendor/common/common.min.js"></script>
-		<script src="https://sinkarkes.kemkes.go.id/assets/vendor/jquery.stellar/jquery.stellar.min.js"></script>
-		<script src="https://sinkarkes.kemkes.go.id/assets/vendor/jquery.easy-pie-chart/jquery.easy-pie-chart.min.js"></script>
-		<script src="https://sinkarkes.kemkes.go.id/assets/vendor/jquery.gmap/jquery.gmap.min.js"></script>
-		<script src="https://sinkarkes.kemkes.go.id/assets/vendor/jquery.lazyload/jquery.lazyload.min.js"></script>
-		<script src="https://sinkarkes.kemkes.go.id/assets/vendor/isotope/jquery.isotope.min.js"></script>
-		<script src="https://sinkarkes.kemkes.go.id/assets/vendor/owl.carousel/owl.carousel.min.js"></script>
-		<script src="https://sinkarkes.kemkes.go.id/assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
-		<script src="https://sinkarkes.kemkes.go.id/assets/vendor/vide/vide.min.js"></script>
-		
-		<!-- Theme Base, Components and Settings -->
-		<script src="https://sinkarkes.kemkes.go.id/assets/js/portal/theme.js"></script>
-		
-		<!-- Current Page Vendor and Views -->
-		<script src="https://sinkarkes.kemkes.go.id/assets/vendor/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
-		<script src="https://sinkarkes.kemkes.go.id/assets/vendor/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
-		
-		<!-- Theme Custom -->
-		
-		<script src="https://sinkarkes.kemkes.go.id/assets/js/../vendor/select2/select2.js"></script>
-		<script src="https://sinkarkes.kemkes.go.id/assets/js/portal/custom.js"></script>
-		
-		<!-- Theme Initialization Files -->
-		<script src="https://sinkarkes.kemkes.go.id/assets/js/portal/theme.init.js"></script>
-
-		<!-- Google Analytics: Change UA-XXXXX-X to be your site's ID. Go to https://www.google.com/analytics/ for more information.
-		<script>
-			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-		
-			ga('create', 'UA-12345678-1', 'auto');
-			ga('send', 'pageview');
-		</script>
-		 -->
-	<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"963b289f1b745fda","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.7.0","token":"e2a765f324f4412da187da8b414d804f"}' crossorigin="anonymous"></script>
+      // Simulasi hasil (dummy response)
+      resultBox.style.display = 'block';
+      resultBox.innerHTML = `<strong>Hasil:</strong> Dokumen dengan nomor <em>${nomor}</em> telah terverifikasi.`;
+      resultBox.style.background = '#e6f9f9';
+      resultBox.style.color = '#006666';
+    }
+  </script>
 </body>
 </html>
-		loading sinkar.html…]()
-
