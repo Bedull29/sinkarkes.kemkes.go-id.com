@@ -1,6 +1,3 @@
-# sink4rkes
-Web
-[Up
 <!DOCTYPE html>
 <html lang="id">
 	<head>
